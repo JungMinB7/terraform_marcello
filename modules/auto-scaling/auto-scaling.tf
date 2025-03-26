@@ -26,7 +26,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   desired_capacity          = var.desired_capacity
   max_size                  = var.max_size
   min_size                  = var.min_size
-  target_group_arns         = [aws_lb_target_group.alb_target_group.arn]
+  target_group_arns         = var.target_group_arns
   health_check_type         = "ELB"
   health_check_grace_period = 30
   launch_template {

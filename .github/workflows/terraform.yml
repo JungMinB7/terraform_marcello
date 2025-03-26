@@ -1,0 +1,44 @@
+name: Terraform CI/CD
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    name: Terraform Workflow
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./terraform
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.7
+
+      - name: Init backend
+        working-directory: ./backend
+        run: |
+          terraform init
+          terraform plan
+          terraform apply -auto-approve || echo "❌ Backend 생성 실패. 종료합니다." && exit 1
+
+      - name: Terraform Init (Main)
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/dev'
+        run: terraform apply -auto-approve

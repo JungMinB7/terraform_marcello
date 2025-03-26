@@ -27,7 +27,7 @@ jobs:
           terraform_version: 1.5.7
 
       - name: Init backend
-        working-directory: ./backend
+        working-directory: ../backend
         run: |
           terraform init
           terraform plan

@@ -34,9 +34,16 @@ jobs:
       - name: Init backend
         working-directory: ./backend
         run: |
-          terraform init
-          terraform plan
-          terraform apply -auto-approve || echo "❌ Backend 생성 실패. 종료합니다." && exit 1
+          set -e
+
+          # 버킷 존재 여부 확인
+          if aws s3api head-bucket --bucket marcello-terraformstate 2>/dev/null; then
+            echo "✅ S3 버킷 이미 존재함. 백엔드 생략"
+          else
+            echo "🛠️ S3/DynamoDB 백엔드 생성 시작"
+            terraform init
+            terraform apply -auto-approve
+          fi
 
       - name: Terraform Init (Main)
         run: terraform init

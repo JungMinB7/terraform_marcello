@@ -109,7 +109,7 @@ module "alb" {
   vpc_id             = module.vpc.vpc_id
   public_subnet_ids  = local.public_subnet_ids
   security_group_id  = module.sg_alb.security_group_id
-  target_port        = 443
+  target_port        = 80
   # certificate_arn    = var.certificate_arn
 }
 

@@ -40,6 +40,12 @@ locals {
     "ap-northeast-2b" = module.subnet.subnet_ids["public-b-alb"]
   }
 
+  public_subnet_map = {
+    "public-a-openvpn" = module.subnet.subnet_ids["public-a-openvpn"]
+    "public-b-alb"     = module.subnet.subnet_ids["public-b-alb"]
+  }
+
+
   private_subnet_map = {
     "private-a" = {
       subnet_id = module.subnet.subnet_ids["private-a"]
@@ -64,7 +70,7 @@ module "igw" {
   source             = "../modules/internet-gateway"
   vpc_id             = module.vpc.vpc_id
   internet_gateway_name = "dev"
-  public_subnet_ids  = local.public_subnet_ids
+  public_subnet_map  = local.public_subnet_map
 }
 
 module "sg_openvpn" {

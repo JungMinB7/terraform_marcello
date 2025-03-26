@@ -6,7 +6,7 @@ terraform {
     key  = "terraform/terraform.tfstate"
     region = "ap-northeast-2"
     encrypt = true
-    dynamodb_table = "marcello-terraform-state"
+    dynamodb_table = "marcello-terraformstate"
   }
 }
 

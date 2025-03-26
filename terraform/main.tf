@@ -126,14 +126,14 @@ module "sg_ec2" {
       to_port         = 80
       protocol        = "tcp"
       security_groups = [module.sg_alb.security_group_id]
-    },
-    {  
-      description     = "Allow HTTPS from ALB"
-      from_port       = 443
-      to_port         = 443
-      protocol        = "tcp"
-      security_groups = [module.sg_alb.security_group_id]
-  }
+    }
+    # {  
+    #   description     = "Allow HTTPS from ALB"
+    #   from_port       = 443
+    #   to_port         = 443
+    #   protocol        = "tcp"
+    #   security_groups = [module.sg_alb.security_group_id]
+  # }
   ]
   egress_rules = [
     {

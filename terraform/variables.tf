@@ -40,6 +40,10 @@ variable "openvpn_ami_id" {
   type = string
 }
 
+variable "db_ami_id" {
+  type = string
+}
+
 variable "ec2_ami_id" {
   type = string
 }

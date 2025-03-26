@@ -56,47 +56,63 @@ sg_default_egress = [
 user_data = <<-EOF
 #!/bin/bash
 yum update -y
-yum install -y nginx openssl
 
+# Apache + WordPress + SSL
+amazon-linux-extras enable php8.0
+yum install -y httpd php php-mysqlnd wget unzip mod_ssl -y
+
+# Enable Apache
+systemctl enable httpd
+systemctl start httpd
+
+# WordPress 설치
+cd /var/www/html
+wget https://wordpress.org/latest.zip
+unzip latest.zip
+cp -r wordpress/* .
+rm -rf wordpress latest.zip
+
+# 퍼미션
+chown -R apache:apache /var/www/html
+chmod -R 755 /var/www/html
+
+# Self-signed SSL 인증서
 mkdir -p /etc/ssl/selfsigned
 cd /etc/ssl/selfsigned
-
 openssl req -x509 -nodes -days 365 \
   -newkey rsa:2048 \
   -keyout selfsigned.key \
   -out selfsigned.crt \
   -subj "/C=KR/ST=Seoul/L=Gangnam/O=MyOrg/CN=localhost"
 
-cat > /etc/nginx/nginx.conf <<EOL
-events {}
+# Apache SSL 설정 추가
+cat > /etc/httpd/conf.d/ssl.conf <<EOL
+<VirtualHost *:443>
+    DocumentRoot "/var/www/html"
+    ServerName localhost
 
-http {
-  server {
-    listen 443 ssl;
-    ssl_certificate /etc/ssl/selfsigned/selfsigned.crt;
-    ssl_certificate_key /etc/ssl/selfsigned/selfsigned.key;
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/selfsigned/selfsigned.crt
+    SSLCertificateKeyFile /etc/ssl/selfsigned/selfsigned.key
 
-    location / {
-      root /usr/share/nginx/html;
-      index index.html;
-    }
-  }
-}
+    <Directory "/var/www/html">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
 EOL
 
-systemctl restart nginx
-systemctl enable nginx
+# Restart Apache
+systemctl restart httpd
 
-amazon-linux-extras enable php8.0
-yum install -y httpd php php-mysqlnd mariadb wget unzip
-systemctl start httpd
-systemctl enable httpd
+# wp-config.php 자동 설정
+cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
 
-wget https://wordpress.org/latest.zip
-unzip latest.zip
-cp -r wordpress/* /var/www/html/
-chown -R apache:apache /var/www/html/
-chmod -R 755 /var/www/html/
+sed -i "s/database_name_here/wordpressdb/" /var/www/html/wp-config.php
+sed -i "s/username_here/admin/" /var/www/html/wp-config.php
+sed -i "s/password_here/mypassword/" /var/www/html/wp-config.php
+sed -i "s/localhost/10.0.5.100/" /var/www/html/wp-config.php  # ✅ 실제 DB EC2의 private IP
+
 EOF
 
 
@@ -104,8 +120,23 @@ db_user_data = <<-EOF
 #!/bin/bash
 yum update -y
 yum install -y mariadb-server
+
 systemctl start mariadb
 systemctl enable mariadb
+
+# ✅ 외부 접속 허용을 위한 bind-address 수정
+sed -i 's/^bind-address=.*/bind-address=0.0.0.0/' /etc/my.cnf
+
+# ✅ 워드프레스용 유저 및 DB 생성
+mysql -u root <<EOFSQL
+CREATE DATABASE wordpressdb;
+CREATE USER 'admin'@'%' IDENTIFIED BY 'mypassword';
+GRANT ALL PRIVILEGES ON wordpressdb.* TO 'admin'@'%';
+FLUSH PRIVILEGES;
+EOFSQL
+
+# ✅ 재시작
+systemctl restart mariadb
 EOF
 
 # 서브넷 설정 예시

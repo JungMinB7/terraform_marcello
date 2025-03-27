@@ -136,15 +136,7 @@ module "sg_ec2" {
     #   security_groups = [module.sg_alb.security_group_id]
   # }
   ]
-  egress_rules = [
-    {
-        description = "DB access"
-        from_port   = 3306
-        to_port     = 3306
-        protocol    = "tcp"
-        cidr_blocks = ["10.0.0.0/16"]  # VPC 범위
-    }
-  ]
+  egress_rules = var.sg_default_egress
 
 }
 
@@ -164,7 +156,7 @@ module "auto-scaling" {
   user_data = templatefile("${path.module}/../modules/auto-scaling/user_data.sh.tpl", {db_private_ip = module.db.private_ip})
   
 
-  # depends_on = [module.db]
+  depends_on = [module.db]
 
 }
 

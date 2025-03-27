@@ -153,7 +153,7 @@ module "auto-scaling" {
   autoscaling_group_name = "dev"
   launch_template_name = "service"
   ami_id              = var.ec2_ami_id
-  instance_type       = "t3.micro"
+  instance_type       = "t3.medium"
   key_name            = var.key_name
   subnet_ids          = local.private_subnet_ids
   security_group_id   = module.sg_ec2.security_group_id
@@ -164,7 +164,7 @@ module "auto-scaling" {
   user_data = templatefile("${path.module}/../modules/auto-scaling/user_data.sh.tpl", {db_private_ip = module.db.private_ip})
   
 
-  depends_on = [module.db]
+  # depends_on = [module.db]
 
 }
 

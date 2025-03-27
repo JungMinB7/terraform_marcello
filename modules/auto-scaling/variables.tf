@@ -60,5 +60,4 @@ variable "max_size" {
 variable "user_data" {
   description = "Startup script (bash)"
   type        = string
-  default     = ""
 }

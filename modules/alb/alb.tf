@@ -22,7 +22,7 @@ resource "aws_lb_target_group" "alb_target_group" {
     matcher             = "200-399"
     interval            = 30
     timeout             = 5
-    healthy_threshold   = 2
+    healthy_threshold   = 4
     unhealthy_threshold = 5
   }
 

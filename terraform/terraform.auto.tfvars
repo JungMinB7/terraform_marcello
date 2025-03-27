@@ -122,11 +122,11 @@ sg_default_egress = [
 
 db_user_data = <<-EOF
 #!/bin/bash
-yum update -y
-yum install -y mariadb-server
+sudo yum update -y
+sudo yum install -y mariadb-server
 
-systemctl start mariadb
-systemctl enable mariadb
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
 
 
 sed -i 's/^bind-address=.*/bind-address=0.0.0.0/' /etc/my.cnf

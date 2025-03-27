@@ -44,10 +44,10 @@ variable "ec2_ami_id" {
   type = string
 }
 
-variable "user_data" {
-  type = string
-  description = "EC2 startup script"
-}
+# variable "user_data" {
+#   type = string
+#   description = "EC2 startup script"
+# }
 
 variable "sg_openvpn_ingress" {
   type = list(any)

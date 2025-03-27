@@ -60,6 +60,7 @@ yum update -y
 
 amazon-linux-extras enable php8.0
 #yum install -y httpd php php-mysqlnd wget unzip mod_ssl -y
+yum install -y httpd php php-mysqlnd wget unzip -y
 
 
 systemctl enable httpd

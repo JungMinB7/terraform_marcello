@@ -59,7 +59,7 @@ yum update -y
 
 
 amazon-linux-extras enable php8.0
-yum install -y httpd php php-mysqlnd wget unzip mod_ssl -y
+#yum install -y httpd php php-mysqlnd wget unzip mod_ssl -y
 
 
 systemctl enable httpd
@@ -76,33 +76,33 @@ chown -R apache:apache /var/www/html
 chmod -R 755 /var/www/html
 
 
-mkdir -p /etc/ssl/selfsigned
-cd /etc/ssl/selfsigned
-openssl req -x509 -nodes -days 365 \
-  -newkey rsa:2048 \
-  -keyout selfsigned.key \
-  -out selfsigned.crt \
-  -subj "/C=KR/ST=Seoul/L=Gangnam/O=MyOrg/CN=localhost"
+# mkdir -p /etc/ssl/selfsigned
+# cd /etc/ssl/selfsigned
+# openssl req -x509 -nodes -days 365 \
+#   -newkey rsa:2048 \
+#   -keyout selfsigned.key \
+#   -out selfsigned.crt \
+#   -subj "/C=KR/ST=Seoul/L=Gangnam/O=MyOrg/CN=localhost"
 
 
-cat > /etc/httpd/conf.d/ssl.conf <<EOL
-<VirtualHost *:443>
-    DocumentRoot "/var/www/html"
-    ServerName localhost
+# cat > /etc/httpd/conf.d/ssl.conf <<EOL
+# <VirtualHost *:443>
+#     DocumentRoot "/var/www/html"
+#     ServerName localhost
 
-    SSLEngine on
-    SSLCertificateFile /etc/ssl/selfsigned/selfsigned.crt
-    SSLCertificateKeyFile /etc/ssl/selfsigned/selfsigned.key
+#     SSLEngine on
+#     SSLCertificateFile /etc/ssl/selfsigned/selfsigned.crt
+#     SSLCertificateKeyFile /etc/ssl/selfsigned/selfsigned.key
 
-    <Directory "/var/www/html">
-        AllowOverride All
-        Require all granted
-    </Directory>
-</VirtualHost>
+#     <Directory "/var/www/html">
+#         AllowOverride All
+#         Require all granted
+#     </Directory>
+# </VirtualHost>
 EOL
 
 
-systemctl restart httpd
+# systemctl restart httpd
 
 
 cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
@@ -111,6 +111,7 @@ sed -i "s/database_name_here/wordpressdb/" /var/www/html/wp-config.php
 sed -i "s/username_here/admin/" /var/www/html/wp-config.php
 sed -i "s/password_here/mypassword/" /var/www/html/wp-config.php
 sed -i "s/localhost/10.0.5.100/" /var/www/html/wp-config.php 
+systemctl restart httpd
 
 EOF
 

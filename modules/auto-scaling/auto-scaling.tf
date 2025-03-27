@@ -19,7 +19,7 @@ resource "aws_launch_template" "launch_template" {
     }
   }
 }
-
+###
 resource "aws_autoscaling_group" "autoscaling_group" {
   name                      = "${var.autoscaling_group_name}-asg"
   vpc_zone_identifier       = var.subnet_ids

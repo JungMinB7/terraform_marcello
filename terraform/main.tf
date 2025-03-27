@@ -58,8 +58,6 @@ locals {
   }
   # db_private_ip = module.db.private_ip
 
-  user_data_script = templatefile("${path.module}/../modules/auto-scaling/user_data.sh.tpl", {db_private_ip = module.db.private_ip})
-  
 }
 
 module "nat" {
@@ -164,7 +162,8 @@ module "auto-scaling" {
   desired_capacity    = 2
   min_size            = 1
   max_size            = 3
-  user_data = local.user_data_script
+  user_data = templatefile("${path.module}/../modules/auto-scaling/user_data.sh.tpl", {db_private_ip = module.db.private_ip})
+  
 
   depends_on = [module.db]
 

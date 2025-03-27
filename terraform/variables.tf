@@ -48,6 +48,7 @@ variable "ec2_ami_id" {
 #   type = string
 #   description = "EC2 startup script"
 # }
+#
 
 variable "sg_openvpn_ingress" {
   type = list(any)

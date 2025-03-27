@@ -136,7 +136,15 @@ module "sg_ec2" {
     #   security_groups = [module.sg_alb.security_group_id]
   # }
   ]
-  egress_rules = var.sg_default_egress
+  egress_rules = [
+    {
+      description = "Allow all outbound"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
 
 }
 

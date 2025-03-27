@@ -20,10 +20,12 @@ chown -R apache:apache /var/www/html
 chmod -R 755 /var/www/html
 
 # 임시 index.html로 ALB Health Check 통과
-# echo "OK" > /var/www/html/index.html
+echo "OK" > /var/www/html/index.html
 
 # wp-config.php 설정 자동화
 cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+
+# db 연결
 sed -i "s/database_name_here/wordpressdb/" /var/www/html/wp-config.php
 sed -i "s/username_here/admin/" /var/www/html/wp-config.php
 sed -i "s/password_here/mypassword/" /var/www/html/wp-config.php

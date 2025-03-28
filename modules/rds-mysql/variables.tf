@@ -13,15 +13,17 @@ variable "allocated_storage" {
   type        = number
 }
 
-# variable "engine" {
-#   description = "DB 엔진 (mysql 등)"
-#   type        = string
-# }
+variable "engine" {
+  description = "DB 엔진 (mysql 등)"
+  type        = string
+  default = "mysql"
+}
 
-# variable "engine_version" {
-#   description = "DB 엔진 버전"
-#   type        = string
-# }
+variable "engine_version" {
+  description = "DB 엔진 버전"
+  type        = string
+  default = "8.0"
+}
 
 variable "instance_class" {
   description = "DB 인스턴스 타입"

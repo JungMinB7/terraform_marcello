@@ -191,11 +191,11 @@ module "rds_mysql" {
   rds_name            = "dev"
   db_name             = "wordpressdb"         # ✅ 꼭 필요
   allocated_storage   = 20
-  engine              = "mysql"
-  engine_version      = "8.0"
+  # engine              = "mysql"
+  # engine_version      = "8.0"
   instance_class      = "db.t3.micro"
-  username            = var.db_username
-  password            = var.db_password
+  username            = var.rds_username
+  password            = var.rds_password
   port                = 3306
   multi_az            = false
   subnet_ids          = module.subnet.db_subnet_ids

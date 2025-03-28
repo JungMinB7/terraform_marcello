@@ -76,6 +76,8 @@ variable "sg_default_egress" {
   description = "Default egress rules"
 }
 
+
+#### db-ec2 사용시
 # variable "db_ami_id" {
 #   type        = string
 #   description = "AMI ID for DB EC2 instance"

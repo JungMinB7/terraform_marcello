@@ -1,9 +1,9 @@
-resource "aws_db_subnet_group" "rds_subnet_group" {
-  name       = "${var.rds_name}-db-subnet-group"
+resource "aws_db_subnet_group" "res_subnet_group" {
+  name       = "${var.rds_name}-subnet-group"
   subnet_ids = var.subnet_ids
 
   tags = {
-    Name = "${var.rds_name}-db-subnet-group"
+    Name = "${var.rds_name}-subnet-group"
   }
 }
 
@@ -13,7 +13,6 @@ resource "aws_db_instance" "rds" {
   engine                  = var.engine
   engine_version          = var.engine_version
   instance_class          = var.instance_class
-  #name                    = var.db_name    ### mysql에선 쓰기 postgreSQL에선 에러남남
   username                = var.username
   password                = var.password
   port                    = var.port
@@ -25,4 +24,8 @@ resource "aws_db_instance" "rds" {
   tags = {
     Name = "${var.rds_name}-rds"
   }
+}
+
+output "rds_endpoint" {
+  value = aws_db_instance.rds.endpoint
 }

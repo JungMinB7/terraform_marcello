@@ -76,13 +76,13 @@ variable "sg_default_egress" {
   description = "Default egress rules"
 }
 
-variable "db_ami_id" {
-  type        = string
-  description = "AMI ID for DB EC2 instance"
-}
+# variable "db_ami_id" {
+#   type        = string
+#   description = "AMI ID for DB EC2 instance"
+# }
 
-variable "db_user_data" {
-  type        = string
-  description = "User data script for DB EC2 setup"
-}
+# variable "db_user_data" {
+#   type        = string
+#   description = "User data script for DB EC2 setup"
+# }
 

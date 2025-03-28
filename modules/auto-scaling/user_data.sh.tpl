@@ -3,7 +3,7 @@ set -e
 
 # 패키지 업데이트 및 설치
 dnf update -y
-dnf install -y php php-mysqlnd httpd wget tar gzip unzip
+dnf install -y php php-mysqlnd httpd wget unzip ## tar gzip
 
 # Apache 설정
 systemctl enable httpd

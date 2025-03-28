@@ -46,7 +46,13 @@ jobs:
           fi
 
       - name: Terraform Init (Main)
-        run: terraform init
+        run: |
+          if [ -d ".terraform" ]; then
+            echo "✅ 이미 init 되어 있음. 생략"
+          else
+            echo "🛠️ terraform init 실행"
+            terraform init
+          fi
 
       - name: Terraform Plan
         run: terraform plan

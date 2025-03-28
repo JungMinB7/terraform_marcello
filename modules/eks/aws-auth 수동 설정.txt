@@ -1,0 +1,19 @@
+aws eks update-kubeconfig --name dev-cluster
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::<YOUR_ACCOUNT_ID>:role/dev-eks-node-role
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+EOF
+
+
+3월 29일 aws-auth.tf 작성하기

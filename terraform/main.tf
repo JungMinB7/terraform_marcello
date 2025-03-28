@@ -164,9 +164,6 @@ module "auto-scaling" {
   user_data = templatefile("${path.module}/../modules/auto-scaling/user_data.sh.tpl", {db_endpoint   = module.rds_mysql.rds_endpoint 
                                                                                       db_username    = var.rds_username 
                                                                                       db_password = var.rds_password})
-  
-
-  depends_on = [module.rds_mysql]
 
 }
 

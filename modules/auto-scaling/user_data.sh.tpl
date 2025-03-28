@@ -115,3 +115,4 @@ sed -i "s/localhost/${db_endpoint}/" /var/www/html/wp-config.php
 # Apache 재시작
 systemctl restart httpd
 
+###

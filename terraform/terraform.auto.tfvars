@@ -5,7 +5,7 @@ key_name        = "keypair-for-terraform"
 # AMI 설정
 openvpn_ami_id  = "ami-09a093fa2e3bfca5a" ##openvpn
 ec2_ami_id      = "ami-062cddb9d94dcf95d" ## amazon linux
-db_ami_id       = "ami-062cddb9d94dcf95d" ## amazon linux
+# db_ami_id       = "ami-062cddb9d94dcf95d" ## amazon linux
 
 # 보안 그룹 규칙
 sg_openvpn_ingress = [
@@ -120,28 +120,33 @@ sg_default_egress = [
 # EOF
 
 
-db_user_data = <<-EOF
-#!/bin/bash
-sudo yum update -y
-sudo yum install -y mariadb-server
+# db_user_data = <<-EOF
+# #!/bin/bash
+# sudo yum update -y
+# sudo yum install -y mariadb-server
 
-sudo systemctl start mariadb
-sudo systemctl enable mariadb
-
-
-sed -i 's/^bind-address=.*/bind-address=0.0.0.0/' /etc/my.cnf
+# sudo systemctl start mariadb
+# sudo systemctl enable mariadb
 
 
-mysql -u root <<EOFSQL
-CREATE DATABASE wordpressdb;
-CREATE USER 'admin'@'%' IDENTIFIED BY 'mypassword';
-GRANT ALL PRIVILEGES ON wordpressdb.* TO 'admin'@'%';
-FLUSH PRIVILEGES;
-EOFSQL
+# sed -i 's/^bind-address=.*/bind-address=0.0.0.0/' /etc/my.cnf
 
 
-systemctl restart mariadb
-EOF
+# mysql -u root <<EOFSQL
+# CREATE DATABASE wordpressdb;
+# CREATE USER 'admin'@'%' IDENTIFIED BY 'mypassword';
+# GRANT ALL PRIVILEGES ON wordpressdb.* TO 'admin'@'%';
+# FLUSH PRIVILEGES;
+# EOFSQL
+
+
+# systemctl restart mariadb
+# EOF
+
+
+db_username = "admin"
+db_password = "mypassword"
+
 
 # 서브넷 설정 예시
 subnet_map = {

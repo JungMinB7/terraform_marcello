@@ -20,8 +20,8 @@ output "subnet_ids" {
 }
 
 output "db_subnet_ids" {
-  value = [
+  value = compact([
     for key, subnet in aws_subnet.subnet :
     key == "db-a" || key == "db-b" ? subnet.id : null
-  ]
+  ])
 }

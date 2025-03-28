@@ -144,8 +144,8 @@ sg_default_egress = [
 # EOF
 
 
-db_username = "admin"
-db_password = "mypassword"
+rds_username = "admin"
+rds_password = "mypassword"
 
 
 # 서브넷 설정 예시

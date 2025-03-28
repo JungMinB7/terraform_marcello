@@ -13,15 +13,15 @@ variable "allocated_storage" {
   type        = number
 }
 
-variable "engine" {
-  description = "DB 엔진 (mysql 등)"
-  type        = string
-}
+# variable "engine" {
+#   description = "DB 엔진 (mysql 등)"
+#   type        = string
+# }
 
-variable "engine_version" {
-  description = "DB 엔진 버전"
-  type        = string
-}
+# variable "engine_version" {
+#   description = "DB 엔진 버전"
+#   type        = string
+# }
 
 variable "instance_class" {
   description = "DB 인스턴스 타입"
@@ -57,3 +57,4 @@ variable "security_group_id" {
   description = "RDS에 연결할 SG ID"
   type        = string
 }
+

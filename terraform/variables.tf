@@ -44,12 +44,12 @@ variable "ec2_ami_id" {
   type = string
 }
 
-variable "db_username" {
+variable "rds_username" {
   description = "RDS username"
   type        = string
 }
 
-variable "db_password" {
+variable "rds_password" {
   description = "RDS password"
   type        = string
 }

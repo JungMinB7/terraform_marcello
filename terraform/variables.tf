@@ -44,6 +44,17 @@ variable "ec2_ami_id" {
   type = string
 }
 
+variable "db_username" {
+  description = "RDS username"
+  type        = string
+}
+
+variable "db_password" {
+  description = "RDS password"
+  type        = string
+}
+
+
 # variable "user_data" {
 #   type = string
 #   description = "EC2 startup script"
@@ -75,7 +86,3 @@ variable "db_user_data" {
   description = "User data script for DB EC2 setup"
 }
 
-variable "db_password" {
-  type = string
-  description = "mysql password"  
-}

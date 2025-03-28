@@ -161,10 +161,10 @@ module "auto-scaling" {
   desired_capacity    = 4
   min_size            = 4
   max_size            = 5
-  user_data = templatefile("${path.module}/../modules/auto-scaling/user_data.sh.tpl", {db_private_ip = module.db.private_ip})
+  user_data = templatefile("${path.module}/../modules/auto-scaling/user_data.sh.tpl", {db_endpoint = module.rds_mysql.rds_endpoint})
   
 
-  depends_on = [module.db]
+  depends_on = [module.rds-mysql]
 
 }
 
@@ -186,13 +186,40 @@ module "sg_db" {
   egress_rules = var.sg_default_egress
 }
 
-module "db" {
-  source            = "../modules/db-ec2"
-  name_prefix       = "dev"
-  ami_id            = var.db_ami_id
-  instance_type     = "t3.micro"
-  key_name          = var.key_name
-  subnet_id         = module.subnet.subnet_ids["db-a"]
-  security_group_id = module.sg_db.security_group_id
-  user_data         = var.db_user_data
+module "rds_mysql" {
+  source              = "../modules/rds-mysql"
+  rds_name            = "dev"
+  db_name             = "wordpressdb"         # ✅ 꼭 필요
+  allocated_storage   = 20
+  engine              = "mysql"
+  engine_version      = "8.0"
+  instance_class      = "db.t3.micro"
+  username            = var.db_username
+  password            = var.db_password
+  port                = 3306
+  multi_az            = false
+  subnet_ids          = module.subnet.db_subnet_ids
+  security_group_id   = module.sg_db.security_group_id
 }
+
+# module "rds" {
+#   source            = "../modules/database"
+#   rds_name          = "dev"
+#   allocated_storage = 20
+#   username          = "admin"
+#   password          = var.db_password
+#   subnet_ids        = module.subnet.db_subnet_ids
+#   security_group_id = module.sg_db.security_group_id
+# }
+
+
+# module "db" {
+#   source            = "../modules/db-ec2"
+#   name_prefix       = "dev"
+#   ami_id            = var.db_ami_id
+#   instance_type     = "t3.micro"
+#   key_name          = var.key_name
+#   subnet_id         = module.subnet.subnet_ids["db-a"]
+#   security_group_id = module.sg_db.security_group_id
+#   user_data         = var.db_user_data
+# }

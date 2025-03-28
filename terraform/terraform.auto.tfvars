@@ -143,7 +143,7 @@ sg_default_egress = [
 # systemctl restart mariadb
 # EOF
 
-
+########################나중에 깃 secret에 넣기
 rds_username = "admin"
 rds_password = "mypassword"
 

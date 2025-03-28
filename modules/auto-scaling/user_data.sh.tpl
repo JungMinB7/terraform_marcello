@@ -20,8 +20,6 @@ rm -rf wordpress latest.zip
 chown -R apache:apache /var/www/html
 chmod -R 755 /var/www/html
 
-# ALB Health check 용 파일
-echo "OK" > /var/www/html/index.html
 
 # wp-config 설정
 cp wp-config-sample.php wp-config.php

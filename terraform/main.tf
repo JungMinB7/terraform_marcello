@@ -158,9 +158,9 @@ module "auto-scaling" {
   subnet_ids          = local.private_subnet_ids
   security_group_id   = module.sg_ec2.security_group_id
   target_group_arns   = [module.alb.target_group_arn]
-  desired_capacity    = 2
-  min_size            = 1
-  max_size            = 3
+  desired_capacity    = 4
+  min_size            = 4
+  max_size            = 5
   user_data = templatefile("${path.module}/../modules/auto-scaling/user_data.sh.tpl", {db_private_ip = module.db.private_ip})
   
 

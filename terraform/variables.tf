@@ -74,3 +74,8 @@ variable "db_user_data" {
   type        = string
   description = "User data script for DB EC2 setup"
 }
+
+variable "db_password" {
+  type = string
+  description = "mysql password"  
+}

@@ -1,14 +1,14 @@
 resource "aws_db_subnet_group" "rds_subnet_group" {
-  name       = "${var.name_prefix}-db-subnet-group"
+  name       = "${var.rds_name}-db-subnet-group"
   subnet_ids = var.subnet_ids
 
   tags = {
-    Name = "${var.name_prefix}-db-subnet-group"
+    Name = "${var.rds_name}-db-subnet-group"
   }
 }
 
 resource "aws_db_instance" "rds" {
-  identifier              = "${var.name_prefix}-db"
+  identifier              = "${var.rds_name}-db"
   allocated_storage       = var.allocated_storage
   engine                  = var.engine
   engine_version          = var.engine_version
@@ -23,6 +23,6 @@ resource "aws_db_instance" "rds" {
   multi_az                = var.multi_az
 
   tags = {
-    Name = "${var.name_prefix}-rds"
+    Name = "${var.rds_name}-rds"
   }
 }
